@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { RefreshCw, Bell, Atom } from 'lucide-react';
 import NotificationPanel from '../modals/NotificationPanel';
-import QuantumModal from '../modals/QuantumModal';
-import '../modals/QuantumModal.css';
+// import QuantumModal from '../modals/QuantumModal';
+// import '../modals/QuantumModal.css';
 
 const Header = ({ title, subtitle, onRefresh, refreshing, userId }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -58,10 +58,12 @@ const Header = ({ title, subtitle, onRefresh, refreshing, userId }) => {
         onClose={closeNotifications}
       />
       
+      {/* TODO: Enable when Quantum module is ready
       <QuantumModal 
         isOpen={showQuantum} 
         onClose={() => setShowQuantum(false)} 
       />
+      */}
     </header>
   );
 };
