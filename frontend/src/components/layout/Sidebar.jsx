@@ -22,8 +22,8 @@ const Sidebar = ({ user }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <h1>Portfolio</h1>
-        <span>Manager Pro</span>
+        <h1>IntelliJX</h1>
+        <span>Portfolio Manager</span>
       </div>
 
       <nav className="sidebar-nav">
