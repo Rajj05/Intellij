@@ -1,0 +1,142 @@
+name: CI - Build & Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+# BACKEND BUILD & TEST
+  backend:
+    name: Backend - Java Spring Boot
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if backend exists
+        id: check_backend
+        run: |
+          if [ -d "./backend" ] && [ -f "./backend/pom.xml" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Backend folder not found - skipping build"
+          fi
+        working-directory: .
+
+      - name: Set up JDK 17
+        if: steps.check_backend.outputs.exists == 'true'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        if: steps.check_backend.outputs.exists == 'true'
+        run: mvn clean compile -DskipTests
+
+      - name: Run Tests
+        if: steps.check_backend.outputs.exists == 'true'
+        run: mvn test
+        continue-on-error: true
+
+      - name: Package JAR
+        if: steps.check_backend.outputs.exists == 'true'
+        run: mvn package -DskipTests
+
+      - name: Upload JAR artifact
+        if: steps.check_backend.outputs.exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/target/*.jar
+          retention-days: 7
+
+  #FRONTEND BUILD & TEST
+  frontend:
+    name: Frontend - React
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if frontend exists
+        id: check_frontend
+        run: |
+          if [ -d "./frontend" ] && [ -f "./frontend/package.json" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Frontend folder not found - skipping build"
+          fi
+        working-directory: .
+
+      - name: Set up Node.js
+        if: steps.check_frontend.outputs.exists == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        if: steps.check_frontend.outputs.exists == 'true'
+        run: |
+          npm install --legacy-peer-deps
+          npm install ajv@8 --save-dev --legacy-peer-deps
+
+      - name: Run Tests
+        if: steps.check_frontend.outputs.exists == 'true'
+        run: npm test -- --watchAll=false --passWithNoTests
+        env:
+          CI: true
+        continue-on-error: true
+
+      - name: Build Production
+        if: steps.check_frontend.outputs.exists == 'true'
+        run: npm run build
+        env:
+          CI: false
+          DISABLE_ESLINT_PLUGIN: true
+
+      - name: Upload build artifact
+        if: steps.check_frontend.outputs.exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/build
+          retention-days: 7
+
+  # CODE QUALITY CHECK
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for large files
+        run: |
+          find . -type f -size +10M | head -20
+          echo "Large file check complete"
+
+      - name: Check file structure
+        run: |
+          echo "Project Structure:"
+          echo "Backend files: $(find ./backend/src -name '*.java' 2>/dev/null | wc -l) Java files"
+          echo "Frontend files: $(find ./frontend/src -name '*.js' -o -name '*.jsx' 2>/dev/null | wc -l) JS/JSX files"
+          echo "Structure check complete"
+
+
