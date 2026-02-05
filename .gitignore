@@ -1,0 +1,50 @@
+# Java/Spring Boot
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Database
+*.db
+*.sqlite
+
+# Environment
+.env
+application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules (if using npm for frontend)
+node_modules/
+package-lock.json
+
+# Build files
+dist/
+build/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
