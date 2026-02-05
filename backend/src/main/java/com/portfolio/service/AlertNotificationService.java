@@ -169,16 +169,16 @@ public class AlertNotificationService {
 
         switch (alert.getAlertType()) {
             case DAILY_LOSS:
-                return String.format("%s has lost %.2f%% today. Current price: $%.2f", 
+                return String.format("%s has lost %.2f%% today. Current price: $%.2f (Threshold: %.2f%%)", 
                     stockName, dayChangePercent, currentPrice);
             case DAILY_GAIN:
-                return String.format("%s has gained %.2f%% today. Current price: $%.2f", 
-                    stockName, dayChangePercent, currentPrice);
+                return String.format("%s has gained %.2f%% today. Current price: $%.2f (Threshold: %.2f%%)", 
+                    stockName, dayChangePercent, currentPrice, alert.getThreshold());
             case PRICE_DROP:
-                return String.format("%s has dropped from $%.2f to $%.2f (Threshold: %.2f%%)", 
+                return String.format("%s has dropped from $%.2f to $%.2f (Threshold: %.2f% PRICE POINTS)", 
                     stockName, previousClose, currentPrice, alert.getThreshold().negate());
             case PRICE_RISE:
-                return String.format("%s has risen from $%.2f to $%.2f (Threshold: %.2f%%)", 
+                return String.format("%s has risen from $%.2f to $%.2f (Threshold: %.2f% PRICE POINTS)", 
                     stockName, previousClose, currentPrice, alert.getThreshold());
             case UNDERPERFORMING:
                 return String.format("%s is underperforming with a %.2f%% loss today. Current price: $%.2f", 
