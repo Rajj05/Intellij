@@ -313,18 +313,6 @@ GET    /api/quantum/recommend?risk_profile=moderate&num_stocks=5  Get recommenda
 - 7 main tables
 - Multiple indexes for performance
 - Foreign key relationships
-- Views for complex queries
-
-### Key Views
-
-1. **v_user_portfolio**
-   - Shows current portfolio with P&L
-   - Includes profit/loss calculations
-
-2. **v_portfolio_summary**
-   - Total invested vs current value
-   - Overall gain/loss
-   - Cash available
 
 ---
 

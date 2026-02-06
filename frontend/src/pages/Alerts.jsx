@@ -18,12 +18,20 @@ const Alerts = ({ userId }) => {
   const fetchData = useCallback(async () => {
     try {
       const [alertsRes, stocksRes] = await Promise.all([
-        getUserAlerts(userId).catch(() => ({ success: true, data: [] })),
+        getUserAlerts(userId).catch((err) => {
+          console.error('Error fetching alerts:', err);
+          return { success: true, data: [] };
+        }),
         getAllStocks()
       ]);
       
+      console.log('Alerts response:', alertsRes);
+      console.log('Alerts data:', alertsRes.data);
+      
       if (alertsRes.success) {
-        setAlerts(alertsRes.data || []);
+        const alertsData = alertsRes.data || [];
+        console.log('Setting alerts to:', alertsData);
+        setAlerts(alertsData);
       }
       if (stocksRes.success) {
         setStocks(stocksRes.data);
@@ -43,17 +51,20 @@ const Alerts = ({ userId }) => {
     e.preventDefault();
     try {
       console.log('Creating alert...');
-      await createAlert({
+      const result = await createAlert({
         userId,
         ticker: newAlert.ticker,
         alertType: newAlert.alertType,
         threshold: parseFloat(newAlert.threshold)
       });
+      console.log('Alert created:', result);
       setShowAddAlert(false);
       setNewAlert({ ticker: '', alertType: 'PRICE_DROP', threshold: 5 });
-      fetchData();
+      await fetchData();
+      console.log('Data refetched');
     } catch (err) {
       console.error('Failed to create alert:', err);
+      alert('Failed to create alert: ' + (err.message || 'Unknown error'));
     }
   };
   

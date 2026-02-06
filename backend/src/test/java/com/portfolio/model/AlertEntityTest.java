@@ -144,11 +144,12 @@ class AlertEntityTest {
     @Test
     @DisplayName("Should create alert with all-argument constructor")
     void testAlertAllArgConstructor() {
-        Alert newAlert = new Alert(2L, testUser, "MSFT", Alert.AlertType.PRICE_DROP, new BigDecimal("300.00"));
+        Alert newAlert = new Alert(2L, testUser, "MSFT", Alert.AlertType.PRICE_DROP, new BigDecimal("300.00"), "Test Alert");
         assertEquals(2L, newAlert.getId());
         assertEquals(testUser, newAlert.getUser());
         assertEquals("MSFT", newAlert.getTicker());
         assertEquals(Alert.AlertType.PRICE_DROP, newAlert.getAlertType());
         assertEquals(new BigDecimal("300.00"), newAlert.getThreshold());
+        assertEquals("Test Alert", newAlert.getTitle());
     }
 }
