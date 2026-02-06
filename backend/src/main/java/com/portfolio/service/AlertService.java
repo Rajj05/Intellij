@@ -50,6 +50,7 @@ public class AlertService {
         alert.setTicker(ticker);
         alert.setAlertType(alertType);
         alert.setThreshold(threshold);
+        alert.setTitle(ticker + " " + alertType.name().replace("_", " ") + " Alert");
 
         Alert savedAlert = alertRepository.save(alert);
         log.info("Created alert for user {}: {} - {}", user.getUsername(), ticker, alertType);

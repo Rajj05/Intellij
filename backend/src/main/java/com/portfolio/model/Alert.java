@@ -37,5 +37,6 @@ public class Alert {
     @Column(nullable = false, precision = 3, scale = 1)
     private BigDecimal threshold;
     
-   
+    @Column(length = 100)
+    private String title;
 }

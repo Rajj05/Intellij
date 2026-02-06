@@ -80,22 +80,6 @@ export const createAlert = async (data) => {
   return response;
 };
 
-// Watchlist endpoints
-export const getWatchlist = async (userId) => {
-  const response = await api.get(`/watchlist/user/${userId}`);
-  return response;
-};
-
-export const addToWatchlist = async (userId, ticker) => {
-  const response = await api.post('/watchlist', { userId, ticker });
-  return response;
-};
-
-export const removeFromWatchlist = async (id) => {
-  const response = await api.delete(`/watchlist/${id}`);
-  return response;
-};
-
 // Notification endpoints
 export const getUnreadNotifications = async (userId) => {
   const response = await api.get(`/notifications/${userId}/unread`);
