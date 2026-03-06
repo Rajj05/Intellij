@@ -30,6 +30,9 @@ public class User {
     @Column(name = "wallet_balance", precision = 15, scale = 2)
     private BigDecimal walletBalance = new BigDecimal("50000.00");
     
+    @Column(name = "ai_trade_password", length = 100)
+    private String aiTradePassword;
+    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     

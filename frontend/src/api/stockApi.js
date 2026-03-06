@@ -96,6 +96,32 @@ export const markNotificationAsRead = async (notificationId) => {
   return response;
 };
 
+// AI Trade endpoints
+export const getAiPasswordStatus = async (userId) => {
+  const response = await api.get(`/ai/${userId}/password/status`);
+  return response;
+};
+
+export const setAiPassword = async (userId, password) => {
+  const response = await api.post(`/ai/${userId}/password`, { password });
+  return response;
+};
+
+export const verifyAiPassword = async (userId, password) => {
+  const response = await api.post(`/ai/${userId}/password/verify`, { password });
+  return response;
+};
+
+export const aiBuyStock = async (data) => {
+  const response = await api.post('/ai/trade/buy', data);
+  return response;
+};
+
+export const aiSellStock = async (data) => {
+  const response = await api.post('/ai/trade/sell', data);
+  return response;
+};
+
 // Auth endpoints
 export const loginUser = async (data) => {
   const response = await api.post('/user/login', data);

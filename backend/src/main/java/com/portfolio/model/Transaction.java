@@ -45,6 +45,9 @@ public class Transaction {
     @Column(name = "wallet_balance_after", nullable = false, precision = 15, scale = 2)
     private BigDecimal walletBalanceAfter;
     
+    @Column(name = "ai_initiated")
+    private Boolean aiInitiated = false;
+    
     @Column(name = "transaction_date")
     private LocalDateTime transactionDate;
     

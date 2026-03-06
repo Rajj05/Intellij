@@ -21,5 +21,6 @@ public class TransactionDTO {
     private BigDecimal pricePerUnit;
     private BigDecimal totalAmount;
     private BigDecimal walletBalanceAfter;
+    private Boolean aiInitiated;
     private LocalDateTime transactionDate;
 }

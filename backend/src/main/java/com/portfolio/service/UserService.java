@@ -106,4 +106,29 @@ public class UserService {
         log.info("Reset wallet for user: {}", user.getUsername());
         return defaultBalance;
     }
+
+// AI Trade Password methods
+
+    @Transactional
+    public void setAiTradePassword(Long userId, String password) {
+        User user = getUserById(userId);
+        user.setAiTradePassword(password);
+        userRepository.save(user);
+        log.info("AI trade password set for user: {}", user.getUsername());
+    }
+
+    @Transactional(readOnly = true)
+    public boolean hasAiTradePassword(Long userId) {
+        User user = getUserById(userId);
+        return user.getAiTradePassword() != null && !user.getAiTradePassword().isEmpty();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean verifyAiTradePassword(Long userId, String password) {
+        User user = getUserById(userId);
+        if (user.getAiTradePassword() == null) {
+            throw new RuntimeException("AI trade password not set. Please set one first.");
+        }
+        return user.getAiTradePassword().equals(password);
+    }
 }
