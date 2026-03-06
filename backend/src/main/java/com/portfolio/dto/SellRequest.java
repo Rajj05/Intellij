@@ -13,4 +13,5 @@ public class SellRequest {
     private String ticker;
     private BigDecimal quantity;  // null or 0 means sell all
     private boolean sellAll = false;
+    private boolean aiInitiated = false;
 }

@@ -161,9 +161,11 @@ public class PortfolioService {
         transaction.setPricePerUnit(stock.getCurrentPrice());
         transaction.setTotalAmount(totalCost);
         transaction.setWalletBalanceAfter(user.getWalletBalance());
+        transaction.setAiInitiated(request.isAiInitiated());
         transactionRepository.save(transaction);
 
-        log.info("User {} bought {} shares of {} at ${}", 
+        log.info("{} {} bought {} shares of {} at ${}", 
+                request.isAiInitiated() ? "[AI]" : "User",
                 user.getUsername(), request.getQuantity(), request.getTicker(), stock.getCurrentPrice());
 
         return convertToTransactionDTO(transaction, stock.getCompanyName());
@@ -219,9 +221,11 @@ public class PortfolioService {
         transaction.setPricePerUnit(stock.getCurrentPrice());
         transaction.setTotalAmount(totalSaleAmount);
         transaction.setWalletBalanceAfter(user.getWalletBalance());
+        transaction.setAiInitiated(request.isAiInitiated());
         transactionRepository.save(transaction);
 
-        log.info("User {} sold {} shares of {} at ${}", 
+        log.info("{} {} sold {} shares of {} at ${}", 
+                request.isAiInitiated() ? "[AI]" : "User",
                 user.getUsername(), quantityToSell, request.getTicker(), stock.getCurrentPrice());
 
         return convertToTransactionDTO(transaction, stock.getCompanyName());
@@ -275,6 +279,7 @@ public class PortfolioService {
                 .pricePerUnit(transaction.getPricePerUnit())
                 .totalAmount(transaction.getTotalAmount())
                 .walletBalanceAfter(transaction.getWalletBalanceAfter())
+                .aiInitiated(transaction.getAiInitiated())
                 .transactionDate(transaction.getTransactionDate())
                 .build();
     }

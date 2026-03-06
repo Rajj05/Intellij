@@ -12,4 +12,5 @@ public class BuyRequest {
     private Long userId;
     private String ticker;
     private BigDecimal quantity;
+    private boolean aiInitiated = false;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { History, ArrowUpRight, ArrowDownRight, Filter } from 'lucide-react';
+import { History, ArrowUpRight, ArrowDownRight, Filter, Bot } from 'lucide-react';
 import Header from '../components/layout/Header';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { getTransactionHistory } from '../api/stockApi';
@@ -169,6 +169,12 @@ const Transactions = ({ userId }) => {
                             </>
                           )}
                         </span>
+                        {tx.aiInitiated && (
+                          <span className="badge-ai">
+                            <Bot size={10} />
+                            AI
+                          </span>
+                        )}
                       </td>
                       <td>{tx.quantity?.toFixed(2)}</td>
                       <td>${tx.pricePerUnit?.toFixed(2)}</td>

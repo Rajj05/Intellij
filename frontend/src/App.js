@@ -7,6 +7,7 @@ import StockDetail from './pages/StockDetail';
 import Portfolio from './pages/Portfolio';
 import Transactions from './pages/Transactions';
 import Alerts from './pages/Alerts';
+import FloatingAIBot from './components/modals/FloatingAIBot';
 import { getPortfolioSummary } from './api/stockApi';
 import './styles/App.css';
 
@@ -45,6 +46,7 @@ function App() {
             <Route path="/alerts" element={<Alerts userId={userId} />} />
           </Routes>
         </main>
+        <FloatingAIBot userId={userId} />
       </div>
     </Router>
   );

@@ -76,7 +76,7 @@ class DTOTest {
         assertEquals("TSLA", buyRequest.getTicker());
         assertEquals(new BigDecimal("5.5"), buyRequest.getQuantity());
 
-        BuyRequest buyRequest2 = new BuyRequest(2L, "NVDA", new BigDecimal("10"));
+        BuyRequest buyRequest2 = new BuyRequest(2L, "NVDA", new BigDecimal("10"), false);
         assertEquals(2L, buyRequest2.getUserId());
         assertEquals("NVDA", buyRequest2.getTicker());
         assertEquals(new BigDecimal("10"), buyRequest2.getQuantity());
