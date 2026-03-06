@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Bot, X, Send, Lock, AlertTriangle } from 'lucide-react';
-import { getAiPasswordStatus, setAiPassword, verifyAiPassword, aiBuyStock, aiSellStock, getStockPrice } from '../../api/stockApi';
+import { getAiPasswordStatus, setAiPassword, verifyAiPassword, aiBuyStock, aiSellStock, getStockQuote } from '../../api/stockApi';
 import './FloatingAIBot.css';
 
 const FloatingAIBot = ({ userId }) => {
@@ -145,7 +145,7 @@ const FloatingAIBot = ({ userId }) => {
     if (trade.action === 'PRICE') {
       setIsLoading(true);
       try {
-        const res = await getStockPrice(trade.ticker);
+        const res = await getStockQuote(trade.ticker);
         const price = res.data?.c || res.data?.currentPrice;
         if (price) {
           addBotMessage(`📈 ${trade.ticker} is currently trading at $${price.toFixed(2)}`);
