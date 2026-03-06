@@ -23,6 +23,9 @@ public class User {
     
     @Column(nullable = false, unique = true, length = 100)
     private String email;
+
+    @Column
+    private String password;
     
     @Column(name = "wallet_balance", precision = 15, scale = 2)
     private BigDecimal walletBalance = new BigDecimal("50000.00");

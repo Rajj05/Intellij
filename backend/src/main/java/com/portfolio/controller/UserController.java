@@ -96,15 +96,20 @@ public class UserController {
         }
     }
 
-// Create new user
+// Create new user (register)
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<Map<String, Object>>> createUser(@RequestBody Map<String, String> request) {
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> registerUser(@RequestBody Map<String, String> request) {
         try {
             String username = request.get("username");
             String email = request.get("email");
+            String password = request.get("password");
             
-            User user = userService.createUser(username, email);
+            if (username == null || email == null || password == null) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Username, email, and password are required"));
+            }
+            
+            User user = userService.createUser(username, email, password);
             
             Map<String, Object> userData = new HashMap<>();
             userData.put("id", user.getId());
@@ -113,6 +118,32 @@ public class UserController {
             userData.put("walletBalance", user.getWalletBalance());
             
             return ResponseEntity.ok(ApiResponse.success("User created successfully", userData));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+// Login
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> loginUser(@RequestBody Map<String, String> request) {
+        try {
+            String username = request.get("username");
+            String password = request.get("password");
+            
+            if (username == null || password == null) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Username and password are required"));
+            }
+            
+            User user = userService.login(username, password);
+            
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("id", user.getId());
+            userData.put("username", user.getUsername());
+            userData.put("email", user.getEmail());
+            userData.put("walletBalance", user.getWalletBalance());
+            
+            return ResponseEntity.ok(ApiResponse.success("Login successful", userData));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }

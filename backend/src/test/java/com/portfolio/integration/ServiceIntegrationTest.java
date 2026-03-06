@@ -75,6 +75,7 @@ class ServiceIntegrationTest {
         testUser = new User();
         testUser.setUsername("integrationuser");
         testUser.setEmail("integration@test.com");
+        testUser.setPassword("testpassword");
         testUser.setWalletBalance(new BigDecimal("50000.00"));
         testUser = userRepository.save(testUser);
 
@@ -155,7 +156,7 @@ class ServiceIntegrationTest {
     @Order(7)
     @DisplayName("UserService - Create new user")
     void testCreateUser() {
-        User newUser = userService.createUser("newuser", "newuser@test.com");
+        User newUser = userService.createUser("newuser", "newuser@test.com", "password123");
         
         assertNotNull(newUser);
         assertNotNull(newUser.getId());
@@ -168,7 +169,7 @@ class ServiceIntegrationTest {
     @DisplayName("UserService - Duplicate username throws exception")
     void testDuplicateUsername() {
         assertThrows(RuntimeException.class, () -> {
-            userService.createUser("integrationuser", "another@test.com");
+            userService.createUser("integrationuser", "another@test.com", "password123");
         });
     }
 

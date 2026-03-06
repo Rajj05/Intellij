@@ -235,7 +235,7 @@ ON DUPLICATE KEY UPDATE
     day_change_percent = VALUES(day_change_percent);
 
 CREATE INDEX idx_transactions_user_date ON transactions(user_id, transaction_date);
-CREATE INDEX idx_alerts_user_read ON alerts(user_id, is_read);
+CREATE INDEX idx_notifications_user_read ON notifications(user_id, is_read);
 CREATE INDEX idx_snapshots_user_date ON portfolio_snapshots(user_id, snapshot_date);
 
 SELECT 'Database schema created successfully!' AS Status;

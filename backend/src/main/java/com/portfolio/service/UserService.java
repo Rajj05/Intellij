@@ -61,7 +61,7 @@ public class UserService {
 //Create new user
 
     @Transactional
-    public User createUser(String username, String email) {
+    public User createUser(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("Username already exists");
         }
@@ -72,11 +72,22 @@ public class UserService {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
+        user.setPassword(password);
         user.setWalletBalance(new BigDecimal("50000.00")); // Default starting balance
         
         User savedUser = userRepository.save(user);
         log.info("Created new user: {}", username);
         return savedUser;
+    }
+
+    @Transactional(readOnly = true)
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        return user;
     }
 
     public void save(User user){

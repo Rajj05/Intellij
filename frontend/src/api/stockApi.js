@@ -95,3 +95,14 @@ export const markNotificationAsRead = async (notificationId) => {
   const response = await api.put(`/notifications/${notificationId}/read`);
   return response;
 };
+
+// Auth endpoints
+export const loginUser = async (data) => {
+  const response = await api.post('/user/login', data);
+  return response;
+};
+
+export const registerUser = async (data) => {
+  const response = await api.post('/user/register', data);
+  return response;
+};
