@@ -7,10 +7,11 @@ import {
   History,
   Bell,
   Settings,
-  User
+  User,
+  LogOut
 } from 'lucide-react';
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ user, onLogout }) => {
   const navItems = [
     { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/stocks', icon: TrendingUp, label: 'Live Stocks' },
@@ -47,6 +48,11 @@ const Sidebar = ({ user }) => {
           <div className="user-name">{user?.username || 'User'}</div>
           <div className="user-role">Investor</div>
         </div>
+        {onLogout && (
+          <button className="logout-btn" onClick={onLogout} title="Sign Out">
+            <LogOut size={16} />
+          </button>
+        )}
       </div>
     </aside>
   );

@@ -121,3 +121,14 @@ export const aiSellStock = async (data) => {
   const response = await api.post('/ai/trade/sell', data);
   return response;
 };
+
+// Auth endpoints
+export const loginUser = async (data) => {
+  const response = await api.post('/user/login', data);
+  return response;
+};
+
+export const registerUser = async (data) => {
+  const response = await api.post('/user/register', data);
+  return response;
+};

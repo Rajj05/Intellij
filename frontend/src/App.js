@@ -8,34 +8,53 @@ import Portfolio from './pages/Portfolio';
 import Transactions from './pages/Transactions';
 import Alerts from './pages/Alerts';
 import FloatingAIBot from './components/modals/FloatingAIBot';
+import Login from './pages/Login';
 import { getPortfolioSummary } from './api/stockApi';
 import './styles/App.css';
 
 function App() {
-  const userId = 1;
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('portfolio_user');
+    return saved ? JSON.parse(saved) : null;
+  });
 
+  const handleLogin = (userData) => {
+    const u = { id: userData.id, username: userData.username };
+    setUser(u);
+    localStorage.setItem('portfolio_user', JSON.stringify(u));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('portfolio_user');
+  };
+
+  // Refresh user info from server when already logged in
   useEffect(() => {
+    if (!user) return;
     const fetchUser = async () => {
       try {
-        const response = await getPortfolioSummary(userId);
+        const response = await getPortfolioSummary(user.id);
         if (response.success) {
-          setUser({
-            id: response.data.userId,
-            username: response.data.username
-          });
+          setUser(prev => ({ ...prev, username: response.data.username }));
         }
       } catch (err) {
         console.error('Failed to fetch user:', err);
       }
     };
     fetchUser();
-  }, [userId]);
+  }, [user?.id]);
+
+  if (!user) {
+    return <Login onLogin={handleLogin} />;
+  }
+
+  const userId = user.id;
 
   return (
     <Router>
       <div className="app">
-        <Sidebar user={user} />
+        <Sidebar user={user} onLogout={handleLogout} />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Dashboard userId={userId} />} />
