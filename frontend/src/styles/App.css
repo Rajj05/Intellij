@@ -185,6 +185,23 @@ body {
   color: var(--text-muted);
 }
 
+.logout-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.logout-btn:hover {
+  color: var(--loss-red);
+  background: var(--loss-red-bg);
+}
+
 /* Main Content */
 .main-content {
   flex: 1;

@@ -34,6 +34,7 @@ class UserServiceTest {
         testUser.setId(1L);
         testUser.setUsername("testuser");
         testUser.setEmail("test@example.com");
+        testUser.setPassword("testpassword");
         testUser.setWalletBalance(new BigDecimal("50000.00"));
     }
 
@@ -77,7 +78,7 @@ class UserServiceTest {
         when(userRepository.existsByEmail("new@example.com")).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(newUser);
 
-        User created = userService.createUser("newuser", "new@example.com");
+        User created = userService.createUser("newuser", "new@example.com", "password123");
 
         assertNotNull(created);
         assertEquals("newuser", created.getUsername());
@@ -93,7 +94,7 @@ class UserServiceTest {
         when(userRepository.existsByEmail("test@example.com")).thenReturn(true);
 
         assertThrows(RuntimeException.class, () -> 
-            userService.createUser("newuser", "test@example.com")
+            userService.createUser("newuser", "test@example.com", "password123")
         );
 
         verify(userRepository, never()).save(any(User.class));

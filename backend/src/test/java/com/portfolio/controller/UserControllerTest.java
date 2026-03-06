@@ -71,12 +71,12 @@ class UserControllerTest {
     @Test
     @DisplayName("Should return error when creating user with duplicate email")
     void testCreateUserDuplicateEmail() throws Exception {
-        when(userService.createUser("newuser", "test@example.com"))
+        when(userService.createUser("newuser", "test@example.com", "password123"))
                 .thenThrow(new RuntimeException("Email already exists"));
 
-        mockMvc.perform(post("/api/user")
+        mockMvc.perform(post("/api/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\":\"newuser\",\"email\":\"test@example.com\"}"))
+                .content("{\"username\":\"newuser\",\"email\":\"test@example.com\",\"password\":\"password123\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value(false));
     }
