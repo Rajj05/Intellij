@@ -5,7 +5,7 @@ title Portfolio Manager Launcher
 set "BASE_DIR=%~dp0"
 
 echo [1/5] Starting MySQL Server...
-start "MySQL Server" /min cmd /c "\"C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqld.exe\" --defaults-file=D:\mysql_data\my.ini"
+start "MySQL Server" /min "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqld.exe" --defaults-file="D:\mysql_data\my.ini"
 
 echo      Waiting for MySQL to start...
 timeout /t 5 /nobreak >nul

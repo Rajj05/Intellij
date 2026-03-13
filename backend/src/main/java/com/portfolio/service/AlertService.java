@@ -25,6 +25,7 @@ public class AlertService {
     private final AlertRepository alertRepository;
     private final UserRepository userRepository;
     private final PortfolioHoldingRepository holdingRepository;
+    private final AlertNotificationService alertNotificationService;
 
     // Threshold for underperforming alert (e.g., -5%)
     //private static final BigDecimal UNDERPERFORMING_THRESHOLD = new BigDecimal("-5.00");
@@ -54,7 +55,14 @@ public class AlertService {
 
         Alert savedAlert = alertRepository.save(alert);
         log.info("Created alert for user {}: {} - {}", user.getUsername(), ticker, alertType);
-        
+
+        // Immediately check if this alert's condition is already met
+        try {
+            alertNotificationService.checkAlertsAndCreateNotifications();
+        } catch (Exception e) {
+            log.warn("Alert check after creation failed: {}", e.getMessage());
+        }
+
         return convertToDTO(savedAlert);
     }
 
